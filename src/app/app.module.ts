@@ -7,12 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { StopwatchComponent, MinuteSecondsPipe } from './app.component';
 import { NbThemeModule } from '@nebular/theme';
-import { NbSidebarModule, NbLayoutModule, NbSidebarService, NbActionsModule, NbInputModule } from '@nebular/theme';
+import { NbSidebarModule, NbLayoutModule, NbSidebarService, NbActionsModule, NbInputModule, NbPopoverModule } from '@nebular/theme';
 import { NbCardModule, NbProgressBarModule, NbAlertModule, NbButtonModule, NbBadgeModule} from '@nebular/theme';
-import { ModalComponent } from './modal/modal.component';
-import { ModalService } from './modal/modal.service';
-import { TimeSettingsComponent } from './settings.component';
-
+import { NbStepperModule, NbAccordionModule} from '@nebular/theme';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 const appRoutes: Routes = [
   { path: '', component: StopwatchComponent },
@@ -21,9 +20,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     StopwatchComponent,
-    MinuteSecondsPipe,
-    ModalComponent,
-    TimeSettingsComponent
+    MinuteSecondsPipe
   ],
   imports: [
     RouterModule.forRoot(
@@ -42,12 +39,16 @@ const appRoutes: Routes = [
     NbAlertModule,
     NbButtonModule,
     NbBadgeModule,
-    NbInputModule
+    NbInputModule,
+    NbStepperModule,
+    NbPopoverModule,
+    NbAccordionModule,
+    AngularFontAwesomeModule
   ],
   entryComponents: [
-    ModalComponent
   ],
-  providers: [NbSidebarService, MinuteSecondsPipe, ModalService],
+  providers: [NbSidebarService, MinuteSecondsPipe],
   bootstrap: [StopwatchComponent]
 })
 export class AppModule { }
+platformBrowserDynamic().bootstrapModule(AppModule);

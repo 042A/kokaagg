@@ -1,82 +1,263 @@
 <nb-layout>
-    <nb-layout-header fixed>
+  <nb-layout-header fixed>
 
-        <h4>Dotta Thai-mers</h4>
-        <nb-actions size="large" fullWidth>
-        <nb-action
-        (click)="addCustom()"
-        icon="nb-person"
-        badgeText="Add"
-        badgeStatus="danger">
-        </nb-action>
-        <nb-action
-        icon="nb-gear"
-        badgeText="Settings"
-        badgeStatus="danger"
-        (click)="openModal('custom-modal-1')">
-        </nb-action>
-        </nb-actions>
+        <h4>kokaägg.nu <span style="font-weight: 100; font-size: 16px;">| 341 kokade ägg</span>
+        </h4>
+     <nb-badge text="v1.0" status="info" size="small" position="top right"></nb-badge>
 
-          <app-jw-modal id="custom-modal-1">
-              <app-settings></app-settings>
-        </app-jw-modal>
 
-    </nb-layout-header>
-    <nb-layout-column>
+    <nb-actions size="small">
+        <nb-action icon="fa fa-bookmark" nbPopover="Lägg till bokmärke"  nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        <nb-action icon="fa fa-heart" nbPopover="Gilla den här appen" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        <nb-action icon="fa fa-bar-chart" nbPopover="Visa statistik" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        <nb-action (click)="toggle()" icon="nb-menu" nbPopover="Visa sidebar" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+      </nb-actions>
+  </nb-layout-header>
 
-        <div *ngIf="timer$ > 0" class="nospace">
-            {{ timer$ | minuteSeconds }}
-        </div>
+    <nb-layout-column id="alarmed">
 
-        <nb-card  *ngIf="!running"
-        [@flyInOut]="'in'" >
-            <nb-card-header>Get ready!</nb-card-header>
+
+      <div class="row no-padding">
+        <div class="col-md-8 col-sm-12 no-padding">
+
+        <nb-card *ngIf="eggIsDone === false" >
             <nb-card-body>
-                <h1>Description</h1>
-                <p>Start the timer exactly at -01:00.</p>
-                <p> Lorem ipsum for typographic purposes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed maximus ex, id scelerisque arcu. Nunc congue fringilla dolor sed ultricies. Etiam sit amet auctor urna. In blandit, tortor rhoncus sagittis gravida, ex erat posuere orci, a eleifend magna felis a orci. </p>
-                <p>Pellentesque at dui eget turpis tincidunt sagittis id id dui. Phasellus leo arcu, ultricies in cursus eget, tempus at metus. Quisque vestibulum nec tellus at porttitor. Aenean posuere vestibulum odio, ut pharetra est dignissim ac. Nam tincidunt id ex ac eleifend. Quisque vulputate, lectus eu scelerisque cursus, erat purus malesuada nibh, eget viverra sem ante at enim. Etiam ut vehicula est, fringilla porttitor orci. Mauris pulvinar rhoncus pellentesque. Nunc tincidunt metus eget feugiat pretium. </p>
+                <nb-stepper orientation="horizontal">
+
+                <!-- Wizard 1 -->
+                <nb-step [label]="labelOne">
+                    <ng-template #labelOne>Välkommen</ng-template>
+                    <div class="dropdown-divider"></div>
+
+                    <div class="row no-padding">
+                            <div class="col-md-6 col-sm-12 no-padding">
+                                <h1>Koka ägg</h1>
+                                  <p>Den här sidan hjälper dig att lyckas med det perfekt kokade ägget.</p>
+                                </div>
+                        <div class="col-md-6 col-sm-12">
+                            <h3>Tillvägagångsätt</h3>
+                            <ul>
+                              <li>Dra på plattan på max och koka upp rikligt med vatten i en kastrull</li>
+                              <li>Dra ner plattan ett eller två snäpp</li>
+                              <li style="color:deepskyblue">Om du har problem med ägg som spricker, häll i ca 1 msk salt i vattnet</li>
+                              <li>Lägg ner äggen försiktigt, en och en, men hjälp av en matsked.</li>
+                              <li>Starta timern! Ditt ägg är klart på 5-10 minuter.</li>
+                            </ul>
+                        </div>
+
+                      </div>
+
+
+                      <div class="dropdown-divider"></div>
+
+                        <button nbButton nbStepperNext fullWidth status="danger">Hur vill du ha ditt ägg?</button>
+                    </nb-step>
+
+                <!-- Wizard 2 -->
+                    <nb-step [label]="labelTwo">
+                        <ng-template #labelTwo>Äggtimer</ng-template>
+                        <div class="dropdown-divider"></div>
+
+                        <div class="row" style="padding-bottom: 50px;">
+
+
+
+                        <div class="col-sm-8">
+                            <h3>Dina inställningar</h3>
+
+                                <h6>Hurdant vill du ha ditt ägg?</h6>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label id="egg1" class="btn btn-secondary">
+                                        <input type="radio" name="options"  autocomplete="off" (click)="egg1()"> Löskokt
+                                    </label>
+                                    <label id="egg2" class="btn btn-secondary">
+                                        <input type="radio" name="options" autocomplete="off" (click)="egg2()"> Herr Svensk
+                                    </label>
+                                    <label id="egg3" class="btn btn-secondary">
+                                        <input type="radio" name="options" autocomplete="off" (click)="egg3()"> Hårdkokt
+                                    </label>
+                                </div>
+
+                                <h6>Temperatur på ägg</h6>
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label id="temp1" class="btn btn-secondary">
+                                        <input type="radio" name="options"  autocomplete="off" (click)="temp1()"> Kylskåpskallt
+                                    </label>
+                                    <label id="temp2" class="btn btn-secondary">
+                                        <input type="radio" name="options" autocomplete="off" (click)="temp2()"> Rumstempurerat
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                            <h3>Koktid</h3>
+                            {{eggtimer | minuteSeconds}}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="dropdown-divider">
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm">
+                                    <button nbButton nbStepperPrevious status="danger">Tillbaka</button>
+                                </div>
+                                <div class="col-sm text-right">
+                                    <button nbButton nbStepperNext status="danger" (click)=startTimer()>Starta timer!</button>
+                                </div>
+                            </div>
+                          </div>
+                    </nb-step>
+
+                    <!-- Wizard 3 -->
+                    <nb-step [label]="labelFour">
+                    <ng-template #labelFour>Koka</ng-template>
+                    <div class="dropdown-divider"></div>
+                    <h3>Dags att koka dina ägg <span style="font-weight: 100;">[Löskokta]</span></h3>
+
+                        <div class="dropdown-divider">
+                        </div>
+
+
+                        Ditt ägg är snart klart
+
+
+                        {{ timer$ | minuteSeconds }} av
+                        {{ eggtimer | minuteSeconds }}
+
+                        <nb-progress-bar status="danger" [value]="timer2"></nb-progress-bar>
+
+
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <button nbButton nbStepperPrevious status="danger" (click)=reset()>Tillbaka</button>
+                            </div>
+
+                        </div>
+
+                    </nb-step>
+                </nb-stepper>
+            </nb-card-body>
+        </nb-card>
+
+
+        <nb-card *ngIf="eggIsDone === true">
+            <nb-card-header>Ditt ägg är klart!</nb-card-header>
+            <nb-card-body>
+              Japp nu är det dags att äta
             </nb-card-body>
             <nb-card-footer>
-                <button (click)="startTimer()" nbButton fullWidth status="danger">Start the ultimate timer experience</button>
+                <button nbButton status="danger" (click)=reset()>Koka fler ägg!</button>
             </nb-card-footer>
         </nb-card>
+        </div>
 
+        <div class="col-md-4 col-sm-12">
 
-        <nb-card *ngIf="spawned" >
-            <nb-card-header>{{eventName}} is about to spawn!  {{ spawntimer | number:'1.0-0' }}</nb-card-header>
+        <nb-accordion>
+            <nb-accordion-item>
+             <nb-accordion-item-header>Näringsämnen i ägg</nb-accordion-item-header>
+             <nb-accordion-item-body>
+                        <div class="row">
+                                <div class="col-sm-4">
+                                    <img  class="img-fluid" src="../assets/powerup_rune.png" alt="">
+                                </div>
 
+                                <div class="col-sm-8">
+                                    <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">Ämne</th>
+                                            <th scope="col">1 medelägg</th>
+                                           </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">Energi (Kcal)</th>
+                                            <td>77</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">Protein (g)</th>
+                                            <td>6,8</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">Fett (g)</th>
+                                            <td>5,5</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">Kolhydrater (g)</th>
+                                            <td>0,2</td>
+                                          </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+            </nb-accordion-item-body>
+          </nb-accordion-item>
+          <nb-accordion-item>
+              <nb-accordion-item-header>Så får du lättskalade ägg</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                  <p>WIP</p>
+             </nb-accordion-item-body>
+           </nb-accordion-item>
+           <nb-accordion-item>
+              <nb-accordion-item-header>Hjälp! Äggen spricker!</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                  <p>WIP</p>
+             </nb-accordion-item-body>
+           </nb-accordion-item>
+           <nb-accordion-item>
+              <nb-accordion-item-header>Välj ekologiska ägg!</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                  <p>Ekologiska ägg är godare! Dessutom får värphönorna ett bättre liv. WIP</p>
+             </nb-accordion-item-body>
+           </nb-accordion-item>
+           <nb-accordion-item>
+              <nb-accordion-item-header>Hur länge håller sig ett ägg?</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                  <p>WIP</p>
+             </nb-accordion-item-body>
+           </nb-accordion-item>
+        </nb-accordion>
+
+        <nb-card style="margin-top: 20px;">
+            <nb-card-body>
+              Byggd med
+              <ul>
+                <li>TypeScript</li>
+                <li>Angular 2+ (6)</li>
+                <li>Nebular UI</li>
+              </ul>
+            </nb-card-body>
             <nb-card-footer>
-                <nb-progress-bar status="danger" [value]="timer2"></nb-progress-bar>
+              <a href="http://042a.github.com">http://042a.github.com</a>
             </nb-card-footer>
-        </nb-card>
-
-        <nb-card>
-                <nb-card-header>Swischa pengar gratis</nb-card-header>
-                <nb-card-body>
-                    Du vet va ja mener
-                </nb-card-body>
-        </nb-card>
+          </nb-card>
 
 
 
+        </div>
+
+
+
+     </div>
 
     </nb-layout-column>
-    <nb-sidebar>
+
+    <nb-sidebar responsive>
 
     <div *ngIf="todos.length > 0">
-        <div *ngFor="let todo of todos.slice().reverse()"
+        <div *ngFor="let todo of todos.slice().reverse() | slice:0:9"
         [@flyInOut]="'in'" [class.completed]="todo.complete">
             <nb-alert status="{{todo.color}}">
-            {{todo.title}} spawned!
+            {{todo.title}}
             <nb-badge text="{{todo.timestamp | minuteSeconds}}" status="success" position="top right"></nb-badge>
             </nb-alert>
         </div>
     </div>
 
-    <nb-alert status="success" *ngIf="timer$ > 0">
-        Timer is running
-    </nb-alert>
+
 
     </nb-sidebar>
 </nb-layout>

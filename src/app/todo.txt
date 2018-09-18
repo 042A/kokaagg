@@ -1,0 +1,4 @@
+Fixa blink
+Skapa en collection i FB och installera FB delen
+Snygga till lite
+Gör alert för när timern resettas.

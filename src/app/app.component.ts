@@ -10,7 +10,8 @@ import {
   animate,
   transition
 } from '@angular/animations';
-import { ModalService } from './modal/modal.service';
+import { Title } from '@angular/platform-browser';
+import { NbSidebarService } from '@nebular/theme';
 
 @Pipe({
   name: 'minuteSeconds'
@@ -53,8 +54,6 @@ export class StopwatchComponent implements OnInit {
   timer3;
   spawnsPre: any = [2, 35];
   spawnsPre2: any = [18, 52];
-  spawns: { id: number, time: number, color: string, text: string }[]  =
-  [ { "id": 1, "time": 5, "color": "danger", "text": "Power-up rune" }, { "id": 2, "time": 35, "color": "danger", "text": "Power-up rune" }, { "id": 3, "time": 65, "color": "danger", "text": "Power-up rune" }, { "id": 4, "time": 95, "color": "danger", "text": "Power-up rune" }, { "id": 5, "time": 125, "color": "danger", "text": "Power-up rune" }, { "id": 6, "time": 155, "color": "danger", "text": "Power-up rune" }, { "id": 7, "time": 185, "color": "danger", "text": "Power-up rune" }, { "id": 8, "time": 215, "color": "danger", "text": "Power-up rune" }, { "id": 9, "time": 245, "color": "danger", "text": "Power-up rune" }, { "id": 10, "time": 275, "color": "danger", "text": "Power-up rune" }, { "id": 11, "time": 305, "color": "danger", "text": "Power-up rune" }, { "id": 12, "time": 335, "color": "danger", "text": "Power-up rune" }, { "id": 13, "time": 365, "color": "danger", "text": "Power-up rune" }, { "id": 14, "time": 395, "color": "danger", "text": "Power-up rune" }, { "id": 15, "time": 425, "color": "danger", "text": "Power-up rune" }, { "id": 16, "time": 455, "color": "danger", "text": "Power-up rune" }, { "id": 17, "time": 485, "color": "danger", "text": "Power-up rune" }, { "id": 18, "time": 515, "color": "danger", "text": "Power-up rune" }, { "id": 19, "time": 545, "color": "danger", "text": "Power-up rune" }, { "id": 20, "time": 575, "color": "danger", "text": "Power-up rune" }, { "id": 21, "time": 605, "color": "danger", "text": "Power-up rune" }, { "id": 22, "time": 635, "color": "danger", "text": "Power-up rune" }, { "id": 23, "time": 665, "color": "danger", "text": "Power-up rune" }, { "id": 24, "time": 695, "color": "danger", "text": "Power-up rune" }, { "id": 25, "time": 725, "color": "danger", "text": "Power-up rune" }, { "id": 26, "time": 755, "color": "danger", "text": "Power-up rune" }, { "id": 27, "time": 785, "color": "danger", "text": "Power-up rune" }, { "id": 28, "time": 815, "color": "danger", "text": "Power-up rune" }, { "id": 29, "time": 845, "color": "danger", "text": "Power-up rune" }, { "id": 30, "time": 875, "color": "danger", "text": "Power-up rune" }, { "id": 31, "time": 905, "color": "danger", "text": "Power-up rune" }, { "id": 32, "time": 935, "color": "danger", "text": "Power-up rune" }, { "id": 33, "time": 965, "color": "danger", "text": "Power-up rune" }, { "id": 34, "time": 995, "color": "danger", "text": "Power-up rune" }, { "id": 35, "time": 1025, "color": "danger", "text": "Power-up rune" }, { "id": 36, "time": 1055, "color": "danger", "text": "Power-up rune" }, { "id": 37, "time": 1085, "color": "danger", "text": "Power-up rune" }, { "id": 38, "time": 1115, "color": "danger", "text": "Power-up rune" }, { "id": 39, "time": 1145, "color": "danger", "text": "Power-up rune" }, { "id": 40, "time": 1175, "color": "danger", "text": "Power-up rune" }, { "id": 1, "time": 20, "color": "warning", "text": "Bounty rune" }, { "id": 2, "time": 80, "color": "warning", "text": "Bounty rune" }, { "id": 3, "time": 140, "color": "warning", "text": "Bounty rune" }, { "id": 4, "time": 200, "color": "warning", "text": "Bounty rune" }, { "id": 5, "time": 260, "color": "warning", "text": "Bounty rune" }, { "id": 6, "time": 320, "color": "warning", "text": "Bounty rune" }, { "id": 7, "time": 380, "color": "warning", "text": "Bounty rune" }, { "id": 8, "time": 440, "color": "warning", "text": "Bounty rune" }, { "id": 9, "time": 500, "color": "warning", "text": "Bounty rune" }, { "id": 10, "time": 560, "color": "warning", "text": "Bounty rune" }, { "id": 11, "time": 620, "color": "warning", "text": "Bounty rune" }, { "id": 12, "time": 680, "color": "warning", "text": "Bounty rune" }, { "id": 13, "time": 740, "color": "warning", "text": "Bounty rune" }, { "id": 14, "time": 800, "color": "warning", "text": "Bounty rune" }, { "id": 15, "time": 860, "color": "warning", "text": "Bounty rune" }, { "id": 16, "time": 920, "color": "warning", "text": "Bounty rune" }, { "id": 17, "time": 980, "color": "warning", "text": "Bounty rune" }, { "id": 18, "time": 1040, "color": "warning", "text": "Bounty rune" }, { "id": 19, "time": 1100, "color": "warning", "text": "Bounty rune" }, { "id": 20, "time": 1160, "color": "warning", "text": "Bounty rune" } ];
   spawned = false;
   hinttime = 15000;
   spawntimer;
@@ -62,33 +61,115 @@ export class StopwatchComponent implements OnInit {
   newTodo: Todo = new Todo();
   eventName;
 
-  constructor(private todoDataService: TodoDataService, private modalService: ModalService) {
+  subscription;
+  resetToggle = false;
+  eggtimer = 0;
+  eggIsDone = false;
+
+  constructor(private todoDataService: TodoDataService, private titleService: Title, private sidebarService: NbSidebarService) {
+  }
+   toggle() {
+    this.sidebarService.toggle(true);
+    return false;
   }
 
   ngOnInit(): void {
+  this.titleService.setTitle( 'KokaÄgg.Nu' );
   }
 
-  openModal(id: string) {
-    this.modalService.open(id);
-    console.log ('open modal ' + id);
+  /* Äggets koktid */
+  egg1() {
+    console.log ('Löskokt: 5min');
+    const element = document.getElementById('egg1');
+    element.classList.add('active');
+    this.eggtimer = this.eggtimer + 6;
+    console.log (this.eggtimer);
   }
 
-  closeModal(id: string) {
-      this.modalService.close(id);
+  egg2() {
+    console.log ('Medel: 7min');
+    const element = document.getElementById('egg2');
+    element.classList.add('active');
+    this.eggtimer = this.eggtimer + 7 * 60;
+    console.log (this.eggtimer);
+  }
+
+  egg3() {
+    console.log ('Hårdkokt: 10min');
+    const element = document.getElementById('egg3');
+    element.classList.add('active');
+    this.eggtimer = this.eggtimer + 10 * 60;
+    console.log (this.eggtimer);
+  }
+
+  /* Äggets temperatur */
+  temp1() {
+    console.log ('Kylskåpskallt');
+    const element = document.getElementById('temp1');
+    element.classList.add('active');
+    this.eggtimer = this.eggtimer + 30;
+    console.log (this.eggtimer);
+  }
+
+  temp2() {
+    console.log ('Rumstemp');
+    const element = document.getElementById('temp2');
+    element.classList.add('active');
+    console.log (this.eggtimer);
   }
 
   startTimer() {
+    this.resetToggle = false;
+    this.titleService.setTitle( 'Kokar ägg...' );
+    const timeInSeconds = this.eggtimer;
+    console.log (timeInSeconds);
     this.running = true;
     console.log ('Startar timer');
     const source1 = timer(0, 1000);
-
-    const subscribe1 = source1.subscribe(val => {
+    this.subscription = source1.subscribe(val => {
       this.timer$ = val;
-      this.timer3 = 100 - val;
-      this.checkConditions(val);
+      this.timer2 = 1 / timeInSeconds * 100 * val;
+      console.log (this.timer$);
+      if (this.timer$ === timeInSeconds) {
+        console.log ('egg is ready');
+        this.eggIsReady();
+        return;
+      }
+      if (this.resetToggle === true ) {
+        this.subscription.unsubscribe();
+      }
     });
+
   }
 
+  eggIsReady() {
+    this.titleService.setTitle( 'Dina ägg är klara!' );
+    this.eggIsDone = true;
+    this.addHistoryEntry('Löskokt', 'active', 32);
+    this.playAudio();
+  }
+
+  playAudio() {
+    const audio = new Audio();
+    audio.src = '../assets/done.wav';
+    audio.load();
+   /*  audio.play(); */
+  }
+
+
+  reset() {
+    this.eggIsDone = false;
+    this.running = false;
+    this.timer$ = 0;
+    this.resetToggle = true;
+
+
+    this.addHistoryEntry('Reset timer', 'active', 32);
+
+  }
+
+
+/*
   checkConditions(val) {
     if (this.spawns.some(e => e.time === val)) {
       const spawnsStore =  this.spawns.find(x => x.time === val);
@@ -97,9 +178,9 @@ export class StopwatchComponent implements OnInit {
     } else {
       return;
     }
-  }
+  } */
 
-  runeSpawnData(spawnProperties): void {
+/*   runeSpawnData(spawnProperties): void {
     this.eventName = spawnProperties.text;
     this.displayRuneSpawn();
     const source2 = timer(0, 100);
@@ -113,7 +194,7 @@ export class StopwatchComponent implements OnInit {
       this.addHistoryEntry(spawnProperties.text, spawnProperties.color, this.timer$);
       this.timer2 = 0;
     }.bind(this), this.hinttime);
-  }
+  } */
 
   displayRuneSpawn(): void {
     this.spawned = true;

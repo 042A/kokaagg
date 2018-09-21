@@ -12,6 +12,15 @@ import { NbCardModule, NbProgressBarModule, NbAlertModule, NbButtonModule, NbBad
 import { NbStepperModule, NbAccordionModule} from '@nebular/theme';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { TaskService } from './firestore.service';
+
+import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+
+
+
 
 const appRoutes: Routes = [
   { path: '', component: StopwatchComponent },
@@ -28,6 +37,8 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     HttpModule,
     FormsModule,
     NbThemeModule.forRoot({ name: 'default' }),
@@ -43,11 +54,12 @@ const appRoutes: Routes = [
     NbStepperModule,
     NbPopoverModule,
     NbAccordionModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    HttpClientModule
   ],
   entryComponents: [
   ],
-  providers: [NbSidebarService, MinuteSecondsPipe],
+  providers: [NbSidebarService, MinuteSecondsPipe, TaskService],
   bootstrap: [StopwatchComponent]
 })
 export class AppModule { }

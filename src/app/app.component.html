@@ -225,9 +225,14 @@
             <nb-card-body>
               Byggd med
               <ul>
-                <li>TypeScript</li>
+                <li (click)="saveTask()">TypeScript</li>
                 <li>Angular 2+ (6)</li>
                 <li>Nebular UI</li>
+              </ul>
+              <ul>
+                <li class="text" *ngFor="let egg of tasks | async; let i = index">
+                  <div (click)="deleteTask(egg)"> {{egg.type}} {{egg.region}} </div>
+                </li>
               </ul>
             </nb-card-body>
             <nb-card-footer>
@@ -246,15 +251,15 @@
     </nb-layout-column>
 
     <nb-sidebar responsive>
-
-    <div *ngIf="todos.length > 0">
-        <div *ngFor="let todo of todos.slice().reverse() | slice:0:9"
-        [@flyInOut]="'in'" [class.completed]="todo.complete">
-            <nb-alert status="{{todo.color}}">
-            {{todo.title}}
-            <nb-badge text="{{todo.timestamp | minuteSeconds}}" status="success" position="top right"></nb-badge>
+    <!-- <div *ngIf="todos.length > 0"> -->
+        <div *ngFor="let egg of tasks | async; let i = index; reverse"
+        [@flyInOut]="'in'" >
+            <nb-alert status="danger" (click)="deleteTask(egg)">
+            <p style="font-size: 14px;">  Ett {{egg.type}} ägg kokade i {{egg.region}}</p>
+            <!-- <nb-badge text="{{todo.timestamp | minuteSeconds}}" status="success" position="top right"></nb-badge>
+             -->
             </nb-alert>
-        </div>
+    <!--     </div> -->
     </div>
 
 

@@ -13,6 +13,16 @@ import {
 import { Title } from '@angular/platform-browser';
 import { NbSidebarService } from '@nebular/theme';
 
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+
+import { TaskService } from './firestore.service';
+import { config } from './firestore.config';
+import { Task } from './firestore.model';
+import { map } from 'rxjs/operators';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+
 @Pipe({
   name: 'minuteSeconds'
 })
@@ -21,6 +31,15 @@ export class MinuteSecondsPipe implements PipeTransform {
     const minutes: number = Math.floor(value / 60);
     return minutes.toString().padStart(2, '0') + ':' +
         (value - minutes * 60).toString().padStart(2, '0');
+  }
+}
+
+@Pipe({
+  name: 'reverse'
+})
+export class ReversePipe implements PipeTransform {
+  transform(value) {
+    return value.slice().reverse();
   }
 }
 
@@ -66,15 +85,101 @@ export class StopwatchComponent implements OnInit {
   eggtimer = 0;
   eggIsDone = false;
 
-  constructor(private todoDataService: TodoDataService, private titleService: Title, private sidebarService: NbSidebarService) {
+  myTask: string = 'hejsan';
+  tasks: Observable<any[]>;
+  editMode = false;
+  taskToEdit: any = {};
+  testResponse: any;
+  API_URL = 'https://ipapi.co/json/';
+  private  contacts:  Array<object> = [];
+
+  constructor(
+    private todoDataService: TodoDataService,
+    private titleService: Title,
+    private sidebarService: NbSidebarService,
+    private db: AngularFirestore,
+    private taskService: TaskService,
+    private httpClient:  HttpClient
+    ) { }
+
+  ngOnInit(): void {
+   this.getIp();
+  this.titleService.setTitle( 'KokaÄgg.Nu' );
+  this.tasks = this.db
+  .collection(config.collection_endpoint)
+  .snapshotChanges()
+  .pipe(map(actions => {
+    return actions.map(a => {
+      // Get document data
+      const data = a.payload.doc.data() as Task;
+
+      // Get document id
+      const id = a.payload.doc.id;
+
+      // Use spread operator to add the id to the document data
+      return { id, ...data };
+    });
+  }));
   }
-   toggle() {
+
+
+
+  getIp() {
+    this.getContacts().subscribe((data:  Array<object>) => {
+      this.contacts  =  data;
+      console.log(data);
+      this.testResponse = this.contacts.region;
+      console.log(this.testResponse);
+  });
+  }
+
+
+  getContacts() {
+    return  this.httpClient.get(`${this.API_URL}`);
+}
+
+saveTask() {
+  console.log ('Saves new');
+  if (this.myTask !== null) {
+    // Get the input value
+    const task = {
+      type: 'soft',
+      region: this.testResponse
+    };
+
+    if (!this.editMode) {
+      console.log(task);
+      this.taskService.addTask(task);
+    } else {
+      // Get the task id
+      const taskId = this.taskToEdit.id;
+
+      // update the task
+      this.taskService.updateTask(taskId, task);
+    }
+
+    // set edit mode to false and clear form
+    this.editMode = false;
+    this.myTask = '';
+  }
+} // saveTask
+
+  deleteTask(task) {
+    // Get the task id
+    const taskId = task.id;
+
+    // delete the task
+    this.taskService.deleteTask(taskId);
+  } // deleteTask
+
+  toggle() {
     this.sidebarService.toggle(true);
     return false;
   }
 
-  ngOnInit(): void {
-  this.titleService.setTitle( 'KokaÄgg.Nu' );
+   alertBlink() {
+    const element = document.getElementById('alarmed');
+    setInterval(function alarm2() {  element.classList.toggle('alarm'); }, 150);
   }
 
   /* Äggets koktid */
@@ -147,6 +252,7 @@ export class StopwatchComponent implements OnInit {
     this.eggIsDone = true;
     this.addHistoryEntry('Löskokt', 'active', 32);
     this.playAudio();
+    this.alertBlink();
   }
 
   playAudio() {

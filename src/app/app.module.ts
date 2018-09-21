@@ -60,7 +60,7 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
   ],
-  providers: [NbSidebarService, MinuteSecondsPipe, ReversePipe, TaskService],
+  providers: [NbSidebarService, TaskService],
   bootstrap: [StopwatchComponent]
 })
 export class AppModule { }

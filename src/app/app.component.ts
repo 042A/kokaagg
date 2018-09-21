@@ -20,7 +20,6 @@ import { TaskService } from './firestore.service';
 import { config } from './firestore.config';
 import { Task } from './firestore.model';
 import { map } from 'rxjs/operators';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 
 @Pipe({

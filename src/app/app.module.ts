@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StopwatchComponent, MinuteSecondsPipe } from './app.component';
+import { StopwatchComponent, MinuteSecondsPipe, ReversePipe } from './app.component';
 import { NbThemeModule } from '@nebular/theme';
 import { NbSidebarModule, NbLayoutModule, NbSidebarService, NbActionsModule, NbInputModule, NbPopoverModule } from '@nebular/theme';
 import { NbCardModule, NbProgressBarModule, NbAlertModule, NbButtonModule, NbBadgeModule} from '@nebular/theme';
@@ -29,7 +29,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     StopwatchComponent,
-    MinuteSecondsPipe
+    MinuteSecondsPipe,
+    ReversePipe
   ],
   imports: [
     RouterModule.forRoot(
@@ -59,7 +60,7 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
   ],
-  providers: [NbSidebarService, MinuteSecondsPipe, TaskService],
+  providers: [NbSidebarService, MinuteSecondsPipe, ReversePipe, TaskService],
   bootstrap: [StopwatchComponent]
 })
 export class AppModule { }

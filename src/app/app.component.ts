@@ -43,7 +43,10 @@ export class ReversePipe implements PipeTransform {
   }
 }
 
-
+export interface ApiInterface {
+  ip: string;
+  region: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -85,13 +88,16 @@ export class StopwatchComponent implements OnInit {
   eggtimer = 0;
   eggIsDone = false;
 
-  myTask: string = 'hejsan';
+  myTask = 'hejsan';
   tasks: Observable<any[]>;
   editMode = false;
   taskToEdit: any = {};
   testResponse: any;
+  userTestStatus: { ip: string, region: string }[];
   API_URL = 'https://ipapi.co/json/';
   private  contacts:  Array<object> = [];
+
+
 
   constructor(
     private todoDataService: TodoDataService,
@@ -125,10 +131,10 @@ export class StopwatchComponent implements OnInit {
 
 
   getIp() {
-    this.getContacts().subscribe((data:  Array<object>) => {
-      this.contacts  =  data;
+    this.getContacts().subscribe((data:  ApiInterface) => {
+
       console.log(data);
-      this.testResponse = this.contacts.region;
+      this.testResponse = data.region;
       console.log(this.testResponse);
   });
   }

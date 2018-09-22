@@ -11,3 +11,18 @@
   .alarm {
     background-color: #ff4c6a!important;
   }
+
+  .element {
+    width: 100%;
+    height: 100%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: #ff4c6a;
+    }
+    100% {
+      background-color: #8a7fff;
+    }
+  }

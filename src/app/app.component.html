@@ -1,24 +1,39 @@
+<div *ngIf="eggIsDone === true" class="element" style="display: block; height: 100vh; width: 100%;">
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+          <nb-card>
+            <nb-card-body>
+                <button nbButton status="danger" fullWidth (click)=reset()>Stäng av alarm</button>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <div class="col-sm"></div>
+      </div>
+</div>
+
 <nb-layout>
   <nb-layout-header fixed>
+    <h4>kokaägg.nu <span style="font-weight: 100; font-size: 16px;">| 341 kokade ägg</span>
+    </h4>
 
-        <h4>kokaägg.nu <span style="font-weight: 100; font-size: 16px;">| 341 kokade ägg</span>
-        </h4>
-     <nb-badge text="v1.0" status="info" size="small" position="top right"></nb-badge>
+    <ul class="navbar-nav ml-auto">
+        <nb-actions size="small">
+            <nb-action icon="fa fa-heart" nbPopover="Gilla den här appen" nbPopoverMode="hint" nbPopoverPlacement="bottom" badgeText="{{likes}}"
+            badgeStatus="danger">
+            </nb-action>
+            <nb-action icon="fa fa-bar-chart" nbPopover="Visa statistik (Ej ännu implementerat)" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+            <nb-action (click)="toggle()" icon="nb-menu" nbPopover="Visa sidebar" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
+        </nb-actions>
+    </ul>
 
+    <nb-badge text="v1.1" status="info" size="small" position="top right"></nb-badge>
 
-    <nb-actions size="small">
-        <nb-action icon="fa fa-bookmark" nbPopover="Lägg till bokmärke"  nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
-        <nb-action icon="fa fa-heart" nbPopover="Gilla den här appen" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
-        <nb-action icon="fa fa-bar-chart" nbPopover="Visa statistik" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
-        <nb-action (click)="toggle()" icon="nb-menu" nbPopover="Visa sidebar" nbPopoverMode="hint" nbPopoverPlacement="bottom"></nb-action>
-      </nb-actions>
   </nb-layout-header>
 
-    <nb-layout-column id="alarmed">
-
-
-      <div class="row no-padding">
-        <div class="col-md-8 col-sm-12 no-padding">
+  <nb-layout-column >
+    <div class="row no-padding">
+      <div class="col-md-8 col-sm-12 no-padding">
 
         <nb-card *ngIf="eggIsDone === false" >
             <nb-card-body>
@@ -50,7 +65,7 @@
 
                       <div class="dropdown-divider"></div>
 
-                        <button nbButton nbStepperNext fullWidth status="danger">Hur vill du ha ditt ägg?</button>
+                        <button nbButton nbStepperNext fullWidth status="danger" size="small">Ställ in timer</button>
                     </nb-step>
 
                 <!-- Wizard 2 -->
@@ -66,32 +81,51 @@
                             <h3>Dina inställningar</h3>
 
                                 <h6>Hurdant vill du ha ditt ägg?</h6>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label id="egg1" class="btn btn-secondary">
-                                        <input type="radio" name="options"  autocomplete="off" (click)="egg1()"> Löskokt
-                                    </label>
-                                    <label id="egg2" class="btn btn-secondary">
-                                        <input type="radio" name="options" autocomplete="off" (click)="egg2()"> Herr Svensk
-                                    </label>
-                                    <label id="egg3" class="btn btn-secondary">
-                                        <input type="radio" name="options" autocomplete="off" (click)="egg3()"> Hårdkokt
-                                    </label>
-                                </div>
+
+                                <label class="custom-control custom-radio">
+                                  <input id="radio1" name="radio" type="radio" class="custom-control-input" (click)="egg.type = 'löskokt'; updateEggTimer()">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Löskokt</span>
+                                </label>
+                                <label class="custom-control custom-radio">
+                                  <input id="radio2" name="radio" type="radio" class="custom-control-input" checked="checked" (click)="egg.type = 'mjukkokt'; updateEggTimer()">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Mjukkokt</span>
+                                </label>
+                                <label class="custom-control custom-radio">
+                                  <input id="radio2" name="radio" type="radio" class="custom-control-input"  (click)="egg.type = 'hårdkokt'; updateEggTimer()">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Hårdkokt</span>
+                                </label>
 
                                 <h6>Temperatur på ägg</h6>
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label id="temp1" class="btn btn-secondary">
-                                        <input type="radio" name="options"  autocomplete="off" (click)="temp1()"> Kylskåpskallt
-                                    </label>
-                                    <label id="temp2" class="btn btn-secondary">
-                                        <input type="radio" name="options" autocomplete="off" (click)="temp2()"> Rumstempurerat
-                                    </label>
-                                </div>
+
+                                <label class="custom-control custom-radio">
+                                  <input id="radio1" name="radio2" type="radio" class="custom-control-input" checked="checked" (click)="egg.starttemp = 'cool'; updateEggTimer()">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Äggen är kylsåpskalla</span>
+                                </label>
+                                <label class="custom-control custom-radio">
+                                  <input id="radio2" name="radio2" type="radio" class="custom-control-input" (click)="egg.starttemp = 'warm'; updateEggTimer()">
+                                  <span class="custom-control-indicator"></span>
+                                  <span class="custom-control-description">Äggen är rumstempurerade</span>
+                                </label>
+
+
                             </div>
 
                             <div class="col-sm-4">
                             <h3>Koktid</h3>
-                            {{eggtimer | minuteSeconds}}
+                            <h1>{{eggtimer | minuteSeconds}}</h1>
+
+                            <h6>När äggen är klara...</h6>
+
+                            <label class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" checked [checked]="egg.sound" (change)="egg.sound = !egg.sound">
+                              <span class="custom-control-indicator"></span>
+                              <span class="custom-control-description">Spelas ett ljud </span>
+                            </label>
+                            <span (click)=playAudio() style="color: #ff4c6a">Testa</span>
                             </div>
                         </div>
                         <div>
@@ -99,12 +133,11 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-sm">
-                                    <button nbButton nbStepperPrevious status="danger">Tillbaka</button>
-                                </div>
-                                <div class="col-sm text-right">
-                                    <button nbButton nbStepperNext status="danger" (click)=startTimer()>Starta timer!</button>
-                                </div>
+
+                                    <button class="pull-left" nbButton nbStepperPrevious status="danger" size="small">Tillbaka</button>
+
+                                    <button class="pull-right" nbButton nbStepperNext status="danger" size="small" (click)=startTimer()>Starta</button>
+
                             </div>
                           </div>
                     </nb-step>
@@ -113,44 +146,58 @@
                     <nb-step [label]="labelFour">
                     <ng-template #labelFour>Koka</ng-template>
                     <div class="dropdown-divider"></div>
-                    <h3>Dags att koka dina ägg <span style="font-weight: 100;">[Löskokta]</span></h3>
+                    <h3>Kokar ägg...  <span style="font-weight: 100;">{{egg.type}}...     {{ timer$ | minuteSeconds }} av
+                      {{ eggtimer | minuteSeconds }}</span></h3>
 
                         <div class="dropdown-divider">
                         </div>
 
 
-                        Ditt ägg är snart klart
-
-
-                        {{ timer$ | minuteSeconds }} av
-                        {{ eggtimer | minuteSeconds }}
-
                         <nb-progress-bar status="danger" [value]="timer2"></nb-progress-bar>
 
 
 
-                        <div class="row">
+                        <div>
+                          <div class="dropdown-divider">
+                          </div>
+
+                          <div class="row">
                             <div class="col-sm">
-                                <button nbButton nbStepperPrevious status="danger" (click)=reset()>Tillbaka</button>
-                            </div>
-
+                              <button nbButton nbStepperPrevious status="danger" (click)=reset()>Tillbaka</button>
+                          </div>
+                          </div>
                         </div>
-
                     </nb-step>
                 </nb-stepper>
             </nb-card-body>
         </nb-card>
 
+        <nb-card>
+          <nb-card-header>
+            Nyheter i v1.1
+          </nb-card-header>
+          <nb-card-body>
+            <ul>
+              <li>Fullt fungerande äggklocka</li>
+              <li>Välj om du vill bli notifierad med ljud</li>
+              <li>Bli notiferad av skärmen när ägget är klart</li>
+              <li>Mobilanpassning</li>
+              <li>Debugdata synlig</li>
+              <li>Gilla Kokaägg.nu knapp fungerar! Inte än.</li>
+            </ul>
+          </nb-card-body>
+        </nb-card>
 
-        <nb-card *ngIf="eggIsDone === true">
+        <nb-card  *ngIf="eggIsDone === true">
             <nb-card-header>Ditt ägg är klart!</nb-card-header>
             <nb-card-body>
-              Japp nu är det dags att äta
+
             </nb-card-body>
             <nb-card-footer>
                 <button nbButton status="danger" (click)=reset()>Koka fler ägg!</button>
             </nb-card-footer>
         </nb-card>
+
         </div>
 
         <div class="col-md-4 col-sm-12">
@@ -223,17 +270,15 @@
 
         <nb-card style="margin-top: 20px;">
             <nb-card-body>
-              Byggd med
+              <h4>Byggd med</h4>
               <ul>
                 <li (click)="saveTask()">TypeScript</li>
-                <li>Angular 2+ (6)</li>
+                <li (click)="eggIsDone = true">Angular 2+ (6)</li>
                 <li>Nebular UI</li>
+                <li>Firebase Firestore</li>
               </ul>
-              <ul>
-                <li class="text" *ngFor="let egg of tasks | async; let i = index">
-                  <div (click)="deleteTask(egg)"> {{egg.type}} {{egg.region}} </div>
-                </li>
-              </ul>
+              <h4>Debug</h4>
+              {{debug}}
             </nb-card-body>
             <nb-card-footer>
               <a href="http://042a.github.com">http://042a.github.com</a>
@@ -255,7 +300,7 @@
         <div *ngFor="let egg of tasks | async; let i = index; reverse"
         [@flyInOut]="'in'" >
             <nb-alert status="danger" (click)="deleteTask(egg)">
-            <p style="font-size: 14px;">  Ett {{egg.type}} ägg kokade i {{egg.region}}</p>
+            <span style="font-size: 14px;"> Någon i {{egg.region}} kokade ett {{egg.type}} ägg! </span>
             <!-- <nb-badge text="{{todo.timestamp | minuteSeconds}}" status="success" position="top right"></nb-badge>
              -->
             </nb-alert>

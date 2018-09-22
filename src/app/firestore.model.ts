@@ -1,4 +1,6 @@
 export interface Task {
-  id: string;
-  description: string;
+  type: string;
+  starttemp: string;
+  region: string;
+  ip: string;
 }

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { StopwatchComponent, MinuteSecondsPipe, ReversePipe } from './app.component';
 import { TaskService } from './firestore.service';
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
     AngularFirestoreModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
     NbSidebarModule,

@@ -1,4 +1,7 @@
-# StopWatch
+#aaa chena
+De här e super kod om å koka ägg å sånt annat äggformat som äppelnå sånt.
+
+## StopWatch
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.1.
 
